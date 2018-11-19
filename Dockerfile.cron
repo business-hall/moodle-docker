@@ -5,6 +5,7 @@ RUN add-apt-repository \
    "deb [arch=amd64] http://deb.debian.org/debian \
    $(lsb_release -cs) \
    universe"
-RUN apt-get update && apt-get install -y php-cli cron
-RUN touch /var/log/cron.log
-CMD /usr/bin/php ${MOODLE_DOCKER_WWWROOT}/admin/cli/cron.php && tail -f /var/log/cron.log
+RUN apt-get update && apt-get install -y php-cli php-pgsql cron
+RUN echo "*/1 * * * * /usr/bin/php  /var/www/html/admin/cli/cron.php > /dev/null" | crontab -u www-data -
+CMD /usr/bin/php /var/www/html/admin/cli/cron.php && tail -f /var/log/cron.log
+
