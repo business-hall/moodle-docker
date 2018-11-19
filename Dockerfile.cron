@@ -6,6 +6,6 @@ RUN add-apt-repository \
    $(lsb_release -cs) \
    universe"
 RUN apt-get update && apt-get install -y php-cli php-pgsql cron
-RUN echo "*/1 * * * * /usr/bin/php  /var/www/html/admin/cli/cron.php > /dev/null" | crontab -u www-data -
-CMD /usr/bin/php /var/www/html/admin/cli/cron.php && tail -f /var/log/cron.log
+RUN echo "*/1 * * * * /usr/bin/php /var/www/html/admin/cli/cron.php > /dev/null" | crontab -
+CMD cron -f
 
